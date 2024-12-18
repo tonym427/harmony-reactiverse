@@ -18,7 +18,6 @@ const ProblemDescriptionSection: React.FC<ProblemDescriptionSectionProps> = ({
         onChange={onChange}
         rows={4}
         className="w-full p-2 border rounded"
-        required
       />
     </div>
   );

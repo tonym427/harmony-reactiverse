@@ -26,7 +26,6 @@ const VehicleInfoSection: React.FC<VehicleInfoProps> = ({
             value={vehicleMake}
             onChange={onChange}
             className="w-full p-2 border rounded"
-            required
           />
         </div>
         <div>
@@ -37,7 +36,6 @@ const VehicleInfoSection: React.FC<VehicleInfoProps> = ({
             value={vehicleModel}
             onChange={onChange}
             className="w-full p-2 border rounded"
-            required
           />
         </div>
         <div>
@@ -51,7 +49,6 @@ const VehicleInfoSection: React.FC<VehicleInfoProps> = ({
             pattern="\d{4}"
             maxLength={4}
             placeholder="YYYY"
-            required
           />
         </div>
       </div>
@@ -65,7 +62,6 @@ const VehicleInfoSection: React.FC<VehicleInfoProps> = ({
           className="w-full p-2 border rounded"
           maxLength={17}
           placeholder="Vehicle Identification Number"
-          required
         />
       </div>
     </>

@@ -25,7 +25,6 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           value={firstName}
           onChange={onChange}
           className="w-full p-2 border rounded"
-          required
         />
       </div>
       <div>
@@ -36,7 +35,6 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           value={lastName}
           onChange={onChange}
           className="w-full p-2 border rounded"
-          required
         />
       </div>
       <div>
@@ -47,7 +45,6 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           value={email}
           onChange={onChange}
           className="w-full p-2 border rounded"
-          required
         />
       </div>
       <div>
@@ -58,7 +55,6 @@ const PersonalInfoSection: React.FC<PersonalInfoProps> = ({
           value={phone}
           onChange={onChange}
           className="w-full p-2 border rounded"
-          required
         />
       </div>
     </div>
