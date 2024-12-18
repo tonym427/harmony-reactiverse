@@ -1,7 +1,13 @@
 import CaseManagement from "@/components/CaseManagement";
+import MetaTags from "@/components/MetaTags";
 
 const Index = () => {
-  return <CaseManagement />;
+  return (
+    <>
+      <MetaTags />
+      <CaseManagement />
+    </>
+  );
 };
 
 export default Index;
