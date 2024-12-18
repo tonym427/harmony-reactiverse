@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/components/ui/use-toast';
-import { supabase } from '@/lib/supabase';
 import { FileUploadSection } from './FileUploadSection';
-import { uploadCaseFiles } from '@/utils/fileUpload';
-import { validateCaseForm } from '@/utils/formValidation';
 import PersonalInfoSection from './form-sections/PersonalInfoSection';
 import VehicleInfoSection from './form-sections/VehicleInfoSection';
 import ProblemDescriptionSection from './form-sections/ProblemDescriptionSection';
 import SubmitButton from './form-sections/SubmitButton';
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  vehicleMake: string;
-  vehicleModel: string;
-  vehicleYear: string;
-  vin: string;
-  problemDescription: string;
-}
+import { useSubmitCase } from '@/hooks/useSubmitCase';
+import { CaseFormData } from '@/types/case';
 
 const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CaseFormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -36,94 +21,11 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
     problemDescription: ''
   });
   const [files, setFiles] = useState<File[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { submitCase, isSubmitting } = useSubmitCase(onSuccess);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting) {
-      console.log('Form submission prevented - already submitting');
-      return;
-    }
-    
-    console.log('Starting form submission with data:', formData);
-    console.log('Files to upload:', files);
-
-    const validationErrors = validateCaseForm(formData);
-    if (validationErrors.length > 0) {
-      console.error('Validation errors:', validationErrors);
-      toast({
-        title: "Form Validation Error",
-        description: validationErrors.join(', '),
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      console.log('Inserting case into database...');
-      const { data, error } = await supabase
-        .from('cases')
-        .insert([{
-          name: `${formData.firstName} ${formData.lastName}`,
-          vehicle: `${formData.vehicleYear} ${formData.vehicleMake} ${formData.vehicleModel}`,
-          status: 'New',
-          last_updated: new Date().toISOString(),
-          ...formData
-        }])
-        .select();
-
-      if (error) {
-        console.error('Database insertion error:', error);
-        throw new Error(`Database error: ${error.message}`);
-      }
-
-      if (!data || data.length === 0) {
-        console.error('No data returned from case insertion');
-        throw new Error('No data returned from case insertion');
-      }
-
-      const caseId = data[0].id;
-      console.log('Case created successfully with ID:', caseId);
-
-      if (files.length > 0) {
-        console.log('Starting file upload process for files:', files);
-        try {
-          const uploadedFiles = await uploadCaseFiles(caseId, files);
-          console.log('Files uploaded successfully:', uploadedFiles);
-
-          const { error: updateError } = await supabase
-            .from('cases')
-            .update({ files: uploadedFiles })
-            .eq('id', caseId);
-
-          if (updateError) {
-            console.error('Error updating case with files:', updateError);
-            throw new Error(`File update error: ${updateError.message}`);
-          }
-        } catch (uploadError: any) {
-          console.error('File upload error:', uploadError);
-          throw new Error(`File upload failed: ${uploadError.message}`);
-        }
-      }
-
-      toast({
-        title: "Success",
-        description: "Case submitted successfully!",
-      });
-      
-      onSuccess();
-    } catch (error: any) {
-      console.error('Form submission error:', error);
-      toast({
-        title: "Error",
-        description: `Failed to submit case: ${error.message}`,
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    await submitCase(formData, files);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

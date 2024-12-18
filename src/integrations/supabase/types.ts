@@ -13,7 +13,9 @@ export type Database = {
         Row: {
           email: string | null
           files: Json | null
+          first_name: string | null
           id: number
+          last_name: string | null
           last_updated: string | null
           name: string
           phone: string | null
@@ -28,7 +30,9 @@ export type Database = {
         Insert: {
           email?: string | null
           files?: Json | null
+          first_name?: string | null
           id?: number
+          last_name?: string | null
           last_updated?: string | null
           name: string
           phone?: string | null
@@ -43,7 +47,9 @@ export type Database = {
         Update: {
           email?: string | null
           files?: Json | null
+          first_name?: string | null
           id?: number
+          last_name?: string | null
           last_updated?: string | null
           name?: string
           phone?: string | null
