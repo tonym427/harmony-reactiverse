@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import CaseForm from './case-management/CaseForm';
 import CaseDatabase from './case-management/CaseDatabase';
+import PasswordProtection from './case-management/PasswordProtection';
 
 const CaseManagement = () => {
-  const [view, setView] = useState<'form' | 'database' | 'success'>('form');
+  const [view, setView] = useState<'form' | 'database' | 'success' | 'password'>('form');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   if (view === 'success') {
     return (
@@ -19,7 +21,7 @@ const CaseManagement = () => {
             Submit Another Case
           </button>
           <button
-            onClick={() => setView('database')}
+            onClick={() => setView(isAuthenticated ? 'database' : 'password')}
             className="bg-green-500 text-white px-4 py-2 rounded"
           >
             View All Cases
@@ -32,7 +34,14 @@ const CaseManagement = () => {
   return (
     <div className="p-4">
       {view === 'form' ? (
-        <CaseForm onSuccess={() => setView('database')} />
+        <CaseForm onSuccess={() => setView('success')} />
+      ) : view === 'password' ? (
+        <PasswordProtection 
+          onSuccess={() => {
+            setIsAuthenticated(true);
+            setView('database');
+          }} 
+        />
       ) : (
         <CaseDatabase onBack={() => setView('form')} />
       )}
