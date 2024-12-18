@@ -147,162 +147,161 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block mb-1">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block mb-1">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block mb-1">Vehicle Make</label>
-                <input
-                  type="text"
-                  name="vehicleMake"
-                  value={formData.vehicleMake}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Model</label>
-                <input
-                  type="text"
-                  name="vehicleModel"
-                  value={formData.vehicleModel}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Year</label>
-                <input
-                  type="text"
-                  name="vehicleYear"
-                  value={formData.vehicleYear}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                  pattern="\d{4}"
-                  maxLength={4}
-                  placeholder="YYYY"
-                />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block mb-1">VIN</label>
+              <label className="block mb-1">First Name</label>
               <input
                 type="text"
-                name="vin"
-                value={formData.vin}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
-                maxLength={17}
-                placeholder="Vehicle Identification Number"
               />
             </div>
-
             <div>
-              <label className="block mb-1">Problem Description</label>
-              <textarea
-                name="problemDescription"
-                value={formData.problemDescription}
+              <label className="block mb-1">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
                 onChange={handleChange}
-                rows="4"
                 className="w-full p-2 border rounded"
               />
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <div className="border-2 border-dashed border-gray-300 rounded p-4">
-                <div className="text-center">
-                  <button
-                    type="button"
-                    onClick={() => document.getElementById('file-upload').click()}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                  >
-                    Upload Files
-                  </button>
-                  <input
-                    id="file-upload"
-                    type="file"
-                    multiple
-                    accept=".pdf,image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Upload repair documents, photos, or any other relevant files
-                  </p>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Phone</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block mb-1">Vehicle Make</label>
+              <input
+                type="text"
+                name="vehicleMake"
+                value={formData.vehicleMake}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Model</label>
+              <input
+                type="text"
+                name="vehicleModel"
+                value={formData.vehicleModel}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Year</label>
+              <input
+                type="text"
+                name="vehicleYear"
+                value={formData.vehicleYear}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+                pattern="\d{4}"
+                maxLength={4}
+                placeholder="YYYY"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block mb-1">VIN</label>
+            <input
+              type="text"
+              name="vin"
+              value={formData.vin}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              maxLength={17}
+              placeholder="Vehicle Identification Number"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1">Problem Description</label>
+            <textarea
+              name="problemDescription"
+              value={formData.problemDescription}
+              onChange={handleChange}
+              rows={4}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <div className="border-2 border-dashed border-gray-300 rounded p-4">
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => document.getElementById('file-upload')?.click()}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Upload Files
+                </button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  multiple
+                  accept=".pdf,image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <p className="text-sm text-gray-500 mt-2">
+                  Upload repair documents, photos, or any other relevant files
+                </p>
               </div>
-
-              {files.length > 0 && (
-                <div className="space-y-2">
-                  <h4>Uploaded Files:</h4>
-                  {files.map((file, index) => (
-                    <div key={index} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                      <span>{file.name}</span>
-                      <button
-                        onClick={() => removeFile(index)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
-            <div className="flex justify-end">
-              <button
-                onClick={handleSubmit}
-                className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
-              >
-                Submit Form
-              </button>
-            </div>
+            {files.length > 0 && (
+              <div className="space-y-2">
+                <h4>Uploaded Files:</h4>
+                {files.map((file, index) => (
+                  <div key={index} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <span>{file.name}</span>
+                    <button
+                      onClick={() => removeFile(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+            >
+              Submit Form
+            </button>
           </div>
         </div>
       </CardContent>
