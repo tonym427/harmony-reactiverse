@@ -15,6 +15,12 @@ interface FormData {
   problemDescription: string;
 }
 
+interface CaseFile {
+  name: string;
+  size: number;
+  url: string;
+}
+
 const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
@@ -45,13 +51,13 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       if (error) throw error;
 
-      // Handle file uploads
-      if (files.length > 0) {
+      if (files.length > 0 && data) {
+        const caseId = data[0].id;
         for (const file of files) {
           const { error: uploadError } = await supabase
             .storage
             .from('case-files')
-            .upload(`${data[0].id}/${file.name}`, file);
+            .upload(`${caseId}/${file.name}`, file);
           
           if (uploadError) {
             console.error('Error uploading file:', uploadError);

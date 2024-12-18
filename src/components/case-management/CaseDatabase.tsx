@@ -4,6 +4,28 @@ import { Search, Filter, ChevronDown } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
+interface CaseFile {
+  name: string;
+  size: number;
+  url: string;
+}
+
+interface Case {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  vehicle: string;
+  vehicleMake: string;
+  vehicleModel: string;
+  vehicleYear: string;
+  vin: string;
+  problemDescription: string;
+  status: string;
+  lastUpdated: string;
+  files: CaseFile[];
+}
+
 const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
   const [selectedCase, setSelectedCase] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +49,7 @@ const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return data;
+      return (data || []) as Case[];
     }
   });
 
