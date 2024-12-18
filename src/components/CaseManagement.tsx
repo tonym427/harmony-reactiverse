@@ -52,7 +52,7 @@ const CaseManagement = () => {
     setView('success');
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -60,12 +60,14 @@ const CaseManagement = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files);
-    setFiles(prev => [...prev, ...newFiles]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      setFiles(prev => [...prev, ...newFiles]);
+    }
   };
 
-  const removeFile = (indexToRemove) => {
+  const removeFile = (indexToRemove: number) => {
     setFiles(prev => prev.filter((_, index) => index !== indexToRemove));
   };
 
@@ -247,7 +249,7 @@ const CaseManagement = () => {
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>AJ's Lemonade - Lemon Law Intake</CardTitle>
+            <CardTitle>JnJ's Lemonaid - Lemon Law Intake</CardTitle>
             <button
               onClick={() => setView('database')}
               className="bg-blue-500 text-white px-4 py-2 rounded"
