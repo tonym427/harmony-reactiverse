@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, Filter, ChevronDown } from 'lucide-react';
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  vehicleMake: string;
+  vehicleModel: string;
+  vehicleYear: string; // Changed from number to string since HTML inputs return strings
+  vin: string;
+  problemDescription: string;
+}
+
 const CaseManagement = () => {
   const [view, setView] = useState('form');
-  const [cases, setCases] = useState([]);
-  const [selectedCase, setSelectedCase] = useState(null);
-  const [formData, setFormData] = useState({
+  const [cases, setCases] = useState<Array<any>>([]);
+  const [selectedCase, setSelectedCase] = useState<number | null>(null);
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -17,7 +29,7 @@ const CaseManagement = () => {
     vin: '',
     problemDescription: ''
   });
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleSubmit = () => {
     const newCase = {
@@ -316,13 +328,29 @@ const CaseManagement = () => {
               <div>
                 <label className="block mb-1">Year</label>
                 <input
-                  type="number"
+                  type="text"
                   name="vehicleYear"
                   value={formData.vehicleYear}
                   onChange={handleChange}
                   className="w-full p-2 border rounded"
+                  pattern="\d{4}"
+                  maxLength={4}
+                  placeholder="YYYY"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="block mb-1">VIN</label>
+              <input
+                type="text"
+                name="vin"
+                value={formData.vin}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+                maxLength={17}
+                placeholder="Vehicle Identification Number"
+              />
             </div>
 
             <div>
