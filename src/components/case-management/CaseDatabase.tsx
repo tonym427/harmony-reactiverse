@@ -194,7 +194,7 @@ const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
                                   <div key={index} className="flex items-center space-x-2 p-2 bg-white rounded border">
                                     <span className="flex-1">{file.name}</span>
                                     <span className="text-sm text-gray-500">
-                                      ({(Number(file.size) / 1024 / 1024).toFixed(2)} MB)
+                                      ({(file.size / 1024 / 1024).toFixed(2)} MB)
                                     </span>
                                     <a
                                       href={file.url}

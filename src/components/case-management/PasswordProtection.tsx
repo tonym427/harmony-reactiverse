@@ -13,7 +13,7 @@ const PasswordProtection = ({ onSuccess }: PasswordProtectionProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real application, you'd want to hash this password and store it securely
-    if (password === 'JnJLemonaid2024') {
+    if (password === 'lemon') {
       onSuccess();
     } else {
       toast({
