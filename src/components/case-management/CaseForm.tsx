@@ -128,8 +128,15 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle>JnJ's Lemonaid - Lemon Law Intake</CardTitle>
+        <div className="flex flex-col items-center space-y-4 mb-4">
+          <img 
+            src="/lovable-uploads/b9564315-bfbd-4e0e-81a0-0a8691166159.png" 
+            alt="Rocky the dog" 
+            className="w-32 h-32 rounded-full object-cover mb-2"
+          />
+          <div className="text-center">
+            <CardTitle className="text-2xl font-bold">Rocky's Lemonade - Lemon Law Intake</CardTitle>
+          </div>
           <button
             onClick={() => onSuccess()}
             className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -139,7 +146,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </div>
       </CardHeader>
       <CardContent>
-          <div className="space-y-4">
+        <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-1">First Name</label>
@@ -297,6 +304,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
               </button>
             </div>
           </div>
+        </div>
       </CardContent>
     </Card>
   );
