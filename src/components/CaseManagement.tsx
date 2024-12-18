@@ -117,7 +117,7 @@ const CaseManagement = () => {
         <Card>
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle>AJ's Lemonade - Case Database ({cases.length} total cases)</CardTitle>
+              <CardTitle>JnJ's Lemonaid - Case Database ({cases.length} total cases)</CardTitle>
               <button
                 onClick={() => setView('form')}
                 className="bg-blue-500 text-white px-4 py-2 rounded"
