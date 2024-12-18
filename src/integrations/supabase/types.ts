@@ -9,7 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      cases: {
+        Row: {
+          email: string | null
+          files: Json | null
+          id: number
+          last_updated: string | null
+          name: string
+          phone: string | null
+          problem_description: string | null
+          status: string | null
+          vehicle: string | null
+          vehicle_make: string | null
+          vehicle_model: string | null
+          vehicle_year: string | null
+          vin: string | null
+        }
+        Insert: {
+          email?: string | null
+          files?: Json | null
+          id?: number
+          last_updated?: string | null
+          name: string
+          phone?: string | null
+          problem_description?: string | null
+          status?: string | null
+          vehicle?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: string | null
+          vin?: string | null
+        }
+        Update: {
+          email?: string | null
+          files?: Json | null
+          id?: number
+          last_updated?: string | null
+          name?: string
+          phone?: string | null
+          problem_description?: string | null
+          status?: string | null
+          vehicle?: string | null
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_year?: string | null
+          vin?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

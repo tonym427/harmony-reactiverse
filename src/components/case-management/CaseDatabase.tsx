@@ -26,6 +26,38 @@ interface Case {
   files: CaseFile[];
 }
 
+interface DatabaseCase {
+  id: number;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  vehicle: string | null;
+  vehicle_make: string | null;
+  vehicle_model: string | null;
+  vehicle_year: string | null;
+  vin: string | null;
+  problem_description: string | null;
+  status: string | null;
+  last_updated: string | null;
+  files: CaseFile[] | null;
+}
+
+const transformDatabaseCase = (dbCase: DatabaseCase): Case => ({
+  id: dbCase.id,
+  name: dbCase.name,
+  email: dbCase.email || '',
+  phone: dbCase.phone || '',
+  vehicle: dbCase.vehicle || '',
+  vehicleMake: dbCase.vehicle_make || '',
+  vehicleModel: dbCase.vehicle_model || '',
+  vehicleYear: dbCase.vehicle_year || '',
+  vin: dbCase.vin || '',
+  problemDescription: dbCase.problem_description || '',
+  status: dbCase.status || 'New',
+  lastUpdated: dbCase.last_updated || new Date().toISOString(),
+  files: dbCase.files || []
+});
+
 const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
   const [selectedCase, setSelectedCase] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,7 +81,7 @@ const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
 
       const { data, error } = await query;
       if (error) throw error;
-      return (data || []) as Case[];
+      return (data || []).map(transformDatabaseCase);
     }
   });
 

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/lib/supabase';
+import { FileUpload } from './FileUpload';
+import { ContactForm } from './ContactForm';
+import { VehicleForm } from './VehicleForm';
 
 interface FormData {
   firstName: string;
@@ -53,15 +56,38 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       if (files.length > 0 && data) {
         const caseId = data[0].id;
+        const uploadedFiles: CaseFile[] = [];
+
         for (const file of files) {
-          const { error: uploadError } = await supabase
+          const { error: uploadError, data: uploadData } = await supabase
             .storage
             .from('case-files')
             .upload(`${caseId}/${file.name}`, file);
           
           if (uploadError) {
             console.error('Error uploading file:', uploadError);
+          } else if (uploadData) {
+            const { data: { publicUrl } } = supabase
+              .storage
+              .from('case-files')
+              .getPublicUrl(`${caseId}/${file.name}`);
+
+            uploadedFiles.push({
+              name: file.name,
+              size: file.size,
+              url: publicUrl
+            });
           }
+        }
+
+        // Update the case with the uploaded files
+        const { error: updateError } = await supabase
+          .from('cases')
+          .update({ files: uploadedFiles })
+          .eq('id', caseId);
+
+        if (updateError) {
+          console.error('Error updating case with files:', updateError);
         }
       }
 
