@@ -74,7 +74,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
             uploadedFiles.push({
               name: file.name,
-              size: file.size,
+              size: Number(file.size), // Explicitly convert to number
               url: publicUrl
             });
           }

@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 
 interface CaseFile {
   name: string;
-  size: number;
+  size: number;  // This is explicitly typed as number
   url: string;
 }
 
@@ -130,94 +130,94 @@ const CaseDatabase = ({ onBack }: { onBack: () => void }) => {
           </div>
         </div>
         
-            {cases.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
-                No cases submitted yet
-              </div>
-            ) : (
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="p-2 text-left">Name</th>
-                    <th className="p-2 text-left">Vehicle</th>
-                    <th className="p-2 text-left">Status</th>
-                    <th className="p-2 text-left">Files</th>
-                    <th className="p-2 text-left">Last Updated</th>
+        {cases.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            No cases submitted yet
+          </div>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="border-b">
+                <th className="p-2 text-left">Name</th>
+                <th className="p-2 text-left">Vehicle</th>
+                <th className="p-2 text-left">Status</th>
+                <th className="p-2 text-left">Files</th>
+                <th className="p-2 text-left">Last Updated</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cases.map(case_ => (
+                <React.Fragment key={case_.id}>
+                  <tr 
+                    onClick={() => setSelectedCase(selectedCase === case_.id ? null : case_.id)}
+                    className="border-b hover:bg-gray-50 cursor-pointer"
+                  >
+                    <td className="p-2">{case_.name}</td>
+                    <td className="p-2">{case_.vehicle}</td>
+                    <td className="p-2">
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        case_.status === 'New' ? 'bg-green-100 text-green-800' :
+                        case_.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {case_.status}
+                      </span>
+                    </td>
+                    <td className="p-2">{case_.files.length} files</td>
+                    <td className="p-2">{case_.lastUpdated}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {cases.map(case_ => (
-                    <React.Fragment key={case_.id}>
-                      <tr 
-                        onClick={() => setSelectedCase(selectedCase === case_.id ? null : case_.id)}
-                        className="border-b hover:bg-gray-50 cursor-pointer"
-                      >
-                        <td className="p-2">{case_.name}</td>
-                        <td className="p-2">{case_.vehicle}</td>
-                        <td className="p-2">
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            case_.status === 'New' ? 'bg-green-100 text-green-800' :
-                            case_.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}>
-                            {case_.status}
-                          </span>
-                        </td>
-                        <td className="p-2">{case_.files.length} files</td>
-                        <td className="p-2">{case_.lastUpdated}</td>
-                      </tr>
-                      {selectedCase === case_.id && (
-                        <tr className="bg-gray-50">
-                          <td colSpan="5" className="p-4">
-                            <div className="grid grid-cols-2 gap-4">
-                              <div>
-                                <h3 className="font-semibold mb-2">Contact Information</h3>
-                                <p>Email: {case_.email}</p>
-                                <p>Phone: {case_.phone}</p>
-                              </div>
-                              <div>
-                                <h3 className="font-semibold mb-2">Vehicle Information</h3>
-                                <p>Make: {case_.vehicleMake}</p>
-                                <p>Model: {case_.vehicleModel}</p>
-                                <p>Year: {case_.vehicleYear}</p>
-                                {case_.vin && <p>VIN: {case_.vin}</p>}
-                              </div>
-                              <div className="col-span-2">
-                                <h3 className="font-semibold mb-2">Problem Description</h3>
-                                <p>{case_.problemDescription}</p>
-                              </div>
-                              {case_.files.length > 0 && (
-                                <div className="col-span-2">
-                                  <h3 className="font-semibold mb-2">Uploaded Files</h3>
-                                  <div className="space-y-2">
-                                    {case_.files.map((file, index) => (
-                                      <div key={index} className="flex items-center space-x-2 p-2 bg-white rounded border">
-                                        <span className="flex-1">{file.name}</span>
-                                        <span className="text-sm text-gray-500">
-                                          ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                                        </span>
-                                        <a
-                                          href={file.url}
-                                          download={file.name}
-                                          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                                          onClick={(e) => e.stopPropagation()}
-                                        >
-                                          Download
-                                        </a>
-                                      </div>
-                                    ))}
+                  {selectedCase === case_.id && (
+                    <tr className="bg-gray-50">
+                      <td colSpan="5" className="p-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <h3 className="font-semibold mb-2">Contact Information</h3>
+                            <p>Email: {case_.email}</p>
+                            <p>Phone: {case_.phone}</p>
+                          </div>
+                          <div>
+                            <h3 className="font-semibold mb-2">Vehicle Information</h3>
+                            <p>Make: {case_.vehicleMake}</p>
+                            <p>Model: {case_.vehicleModel}</p>
+                            <p>Year: {case_.vehicleYear}</p>
+                            {case_.vin && <p>VIN: {case_.vin}</p>}
+                          </div>
+                          <div className="col-span-2">
+                            <h3 className="font-semibold mb-2">Problem Description</h3>
+                            <p>{case_.problemDescription}</p>
+                          </div>
+                          {case_.files.length > 0 && (
+                            <div className="col-span-2">
+                              <h3 className="font-semibold mb-2">Uploaded Files</h3>
+                              <div className="space-y-2">
+                                {case_.files.map((file, index) => (
+                                  <div key={index} className="flex items-center space-x-2 p-2 bg-white rounded border">
+                                    <span className="flex-1">{file.name}</span>
+                                    <span className="text-sm text-gray-500">
+                                      ({(Number(file.size) / 1024 / 1024).toFixed(2)} MB)
+                                    </span>
+                                    <a
+                                      href={file.url}
+                                      download={file.name}
+                                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      Download
+                                    </a>
                                   </div>
-                                </div>
-                              )}
+                                ))}
+                              </div>
                             </div>
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        )}
       </CardContent>
     </Card>
   );
