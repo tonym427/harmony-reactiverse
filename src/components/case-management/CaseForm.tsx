@@ -7,6 +7,8 @@ import { uploadCaseFiles } from '@/utils/fileUpload';
 import { validateCaseForm } from '@/utils/formValidation';
 import PersonalInfoSection from './form-sections/PersonalInfoSection';
 import VehicleInfoSection from './form-sections/VehicleInfoSection';
+import ProblemDescriptionSection from './form-sections/ProblemDescriptionSection';
+import SubmitButton from './form-sections/SubmitButton';
 
 interface FormData {
   firstName: string;
@@ -38,7 +40,10 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting) return;
+    if (isSubmitting) {
+      console.log('Form submission prevented - already submitting');
+      return;
+    }
     
     console.log('Starting form submission with data:', formData);
     console.log('Files to upload:', files);
@@ -71,7 +76,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       if (error) {
         console.error('Database insertion error:', error);
-        throw error;
+        throw new Error(`Database error: ${error.message}`);
       }
 
       if (!data || data.length === 0) {
@@ -84,17 +89,22 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       if (files.length > 0) {
         console.log('Starting file upload process for files:', files);
-        const uploadedFiles = await uploadCaseFiles(caseId, files);
-        console.log('Files uploaded successfully:', uploadedFiles);
+        try {
+          const uploadedFiles = await uploadCaseFiles(caseId, files);
+          console.log('Files uploaded successfully:', uploadedFiles);
 
-        const { error: updateError } = await supabase
-          .from('cases')
-          .update({ files: uploadedFiles })
-          .eq('id', caseId);
+          const { error: updateError } = await supabase
+            .from('cases')
+            .update({ files: uploadedFiles })
+            .eq('id', caseId);
 
-        if (updateError) {
-          console.error('Error updating case with files:', updateError);
-          throw updateError;
+          if (updateError) {
+            console.error('Error updating case with files:', updateError);
+            throw new Error(`File update error: ${updateError.message}`);
+          }
+        } catch (uploadError: any) {
+          console.error('File upload error:', uploadError);
+          throw new Error(`File upload failed: ${uploadError.message}`);
         }
       }
 
@@ -108,7 +118,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
       console.error('Form submission error:', error);
       toast({
         title: "Error",
-        description: `Failed to submit case: ${error.message || 'Unknown error'}`,
+        description: `Failed to submit case: ${error.message}`,
         variant: "destructive"
       });
     } finally {
@@ -168,17 +178,10 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
             onChange={handleChange}
           />
 
-          <div>
-            <label className="block mb-1">Problem Description</label>
-            <textarea
-              name="problemDescription"
-              value={formData.problemDescription}
-              onChange={handleChange}
-              rows={4}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
+          <ProblemDescriptionSection
+            value={formData.problemDescription}
+            onChange={handleChange}
+          />
 
           <FileUploadSection
             files={files}
@@ -187,15 +190,7 @@ const CaseForm = ({ onSuccess }: { onSuccess: () => void }) => {
           />
 
           <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`${
-                isSubmitting ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'
-              } text-white px-6 py-2 rounded transition-colors`}
-            >
-              {isSubmitting ? 'Submitting...' : 'Submit Form'}
-            </button>
+            <SubmitButton isSubmitting={isSubmitting} />
           </div>
         </form>
       </CardContent>
